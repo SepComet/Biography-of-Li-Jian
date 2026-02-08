@@ -385,7 +385,7 @@ namespace CustomComponent
         /// </summary>
         private void RejectPlace(CombineDraggablePart part, string hint)
         {
-            part.ReturnToSpawn();
+            part.ReturnToSpawnAnimated();
 
             if (!string.IsNullOrEmpty(hint))
             {

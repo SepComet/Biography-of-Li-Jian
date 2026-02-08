@@ -340,7 +340,7 @@ namespace UI
                 .SetUpdate(true);
         }
 
-        private void ReturnToSpawnAnimated()
+        public void ReturnToSpawnAnimated()
         {
             if (_spawnParent == null)
             {
