@@ -1,4 +1,5 @@
 using CustomComponent;
+using DG.Tweening;
 using Definition.Enum;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,7 +11,7 @@ namespace UI
     /// </summary>
     [RequireComponent(typeof(RectTransform))]
     [DisallowMultipleComponent]
-    public class CombineDraggablePart : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+    public class CombineDraggablePart : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
     {
         #region Inspector Config
 
@@ -25,6 +26,18 @@ namespace UI
         [SerializeField] private RectTransform _rectTransform;
 
         [SerializeField] private CanvasGroup _canvasGroup;
+
+        [SerializeField] private float _defaultScaleMultiplier = 0.8f;
+
+        [SerializeField] private float _hoverScaleMultiplier = 1f;
+
+        [SerializeField] private float _hoverTweenDuration = 0.15f;
+
+        [SerializeField] private Ease _hoverTweenEase = Ease.OutQuad;
+
+        [SerializeField] private float _returnToSpawnDuration = 0.4f;
+
+        [SerializeField] private Ease _returnToSpawnEase = Ease.OutCubic;
 
         #endregion
 
@@ -54,6 +67,14 @@ namespace UI
 
         private bool _isLocked;
 
+        private bool _isDragging;
+
+        private Vector3 _originalLocalScale = Vector3.one;
+
+        private Tween _scaleTween;
+
+        private Tween _returnTween;
+
         #endregion
 
         #region Public Query
@@ -61,6 +82,32 @@ namespace UI
         public CombinePartType PartType => _partType;
 
         public string MechanicsExplanation => _mechanicsExplanation;
+
+        #endregion
+
+        #region Unity Lifecycle
+
+        private void Awake()
+        {
+            if (_rectTransform == null)
+            {
+                _rectTransform = transform as RectTransform;
+            }
+
+            if (_canvasGroup == null)
+            {
+                _canvasGroup = gameObject.GetOrAddComponent<CanvasGroup>();
+            }
+
+            _originalLocalScale = _rectTransform.localScale;
+            ApplyScaleImmediate(_defaultScaleMultiplier);
+        }
+
+        private void OnDestroy()
+        {
+            KillScaleTween();
+            KillReturnTween();
+        }
 
         #endregion
 
@@ -111,6 +158,7 @@ namespace UI
         public void ResetToSpawn()
         {
             ClearSlotOccupancy();
+            _isDragging = false;
             _isPlaced = false;
             _isLocked = false;
             ReturnToSpawn();
@@ -130,6 +178,8 @@ namespace UI
                 return;
             }
 
+            KillReturnTween();
+            _isDragging = true;
             _canvasGroup.blocksRaycasts = false;
             MoveToDragRoot();
             _rectTransform.SetAsLastSibling();
@@ -153,6 +203,8 @@ namespace UI
         /// </summary>
         public void OnEndDrag(PointerEventData eventData)
         {
+            _isDragging = false;
+
             if (_isLocked)
             {
                 return;
@@ -162,8 +214,28 @@ namespace UI
 
             if (!_isPlaced)
             {
-                ReturnToSpawn();
+                ReturnToSpawnAnimated();
             }
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            if (_isLocked || _isPlaced || _isDragging)
+            {
+                return;
+            }
+
+            PlayScaleTween(_hoverScaleMultiplier);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            if (_isLocked || _isPlaced || _isDragging)
+            {
+                return;
+            }
+
+            PlayScaleTween(_defaultScaleMultiplier);
         }
 
         /// <summary>
@@ -208,6 +280,8 @@ namespace UI
         /// </summary>
         public void ReturnToSpawn()
         {
+            KillReturnTween();
+
             if (_spawnParent == null)
             {
                 return;
@@ -225,6 +299,9 @@ namespace UI
         /// </summary>
         internal void PlaceToSlot(CombineSlot slot)
         {
+            KillScaleTween();
+            KillReturnTween();
+            _isDragging = false;
             _currentSlot = slot;
             _isPlaced = true;
             _isLocked = _lockAfterPlaced;
@@ -247,6 +324,66 @@ namespace UI
                 _currentSlot.ClearOccupiedPart(this);
                 _currentSlot = null;
             }
+        }
+
+        private void ApplyScaleImmediate(float multiplier)
+        {
+            _rectTransform.localScale = _originalLocalScale * Mathf.Max(0f, multiplier);
+        }
+
+        private void PlayScaleTween(float targetMultiplier)
+        {
+            KillScaleTween();
+            _scaleTween = _rectTransform
+                .DOScale(_originalLocalScale * Mathf.Max(0f, targetMultiplier), _hoverTweenDuration)
+                .SetEase(_hoverTweenEase)
+                .SetUpdate(true);
+        }
+
+        private void ReturnToSpawnAnimated()
+        {
+            if (_spawnParent == null)
+            {
+                return;
+            }
+
+            if (_returnToSpawnDuration <= 0f)
+            {
+                ReturnToSpawn();
+                return;
+            }
+
+            KillReturnTween();
+            _rectTransform.SetParent(_spawnParent, true);
+            _rectTransform.SetSiblingIndex(_spawnSiblingIndex);
+
+            _returnTween = DOTween.Sequence()
+                .Append(_rectTransform.DOMove(_spawnWorldPosition, _returnToSpawnDuration))
+                .Join(_rectTransform.DORotateQuaternion(_spawnWorldRotation, _returnToSpawnDuration))
+                .Join(_rectTransform.DOScale(_spawnWorldScale, _returnToSpawnDuration))
+                .SetEase(_returnToSpawnEase)
+                .SetUpdate(true)
+                .OnKill(() => _returnTween = null);
+        }
+
+        private void KillScaleTween()
+        {
+            if (_scaleTween != null && _scaleTween.IsActive())
+            {
+                _scaleTween.Kill();
+            }
+
+            _scaleTween = null;
+        }
+
+        private void KillReturnTween()
+        {
+            if (_returnTween != null && _returnTween.IsActive())
+            {
+                _returnTween.Kill();
+            }
+
+            _returnTween = null;
         }
 
         #endregion
