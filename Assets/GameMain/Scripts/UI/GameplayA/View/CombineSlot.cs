@@ -118,6 +118,13 @@ namespace UI
             _requireStrictOrder = data.RequireStrictOrder;
             _mechanicsExplanation = data.MechanicsExplanation ?? string.Empty;
             _mismatchHint = data.MismatchHint ?? string.Empty;
+
+            RectTransform rectTransform = transform as RectTransform;
+            if (rectTransform != null)
+            {
+                rectTransform.anchoredPosition = data.AnchoredPosition;
+                rectTransform.sizeDelta = data.SizeDelta;
+            }
         }
 
         /// <summary>

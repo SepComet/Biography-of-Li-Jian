@@ -39,6 +39,14 @@ namespace UI
 
         [SerializeField] private float _partVerticalSpacing = 120f;
 
+        [SerializeField] [Range(0f, 1f)] private float _partSpawnMinXNormalized = 0.55f;
+
+        [SerializeField] [Range(0f, 1f)] private float _partSpawnMaxXNormalized = 0.95f;
+
+        [SerializeField] [Range(0f, 1f)] private float _partSpawnMinYNormalized = 0.1f;
+
+        [SerializeField] [Range(0f, 1f)] private float _partSpawnMaxYNormalized = 0.9f;
+
         private readonly List<GameObject> _runtimeNodes = new();
 
         #endregion
@@ -194,12 +202,63 @@ namespace UI
                 _runtimeNodes.Add(slot.gameObject);
             }
 
-            foreach (var partData in context.Parts)
+            List<CombinePartContext> partContexts = BuildPartContextList(context);
+            for (int i = 0; i < partContexts.Count; i++)
             {
+                CombinePartContext partData = partContexts[i];
                 CombineDraggablePart part = Instantiate(_partPrefab, _partRoot, false);
                 part.Initialize(partData);
+                SetPartSpawnPosition(part, i);
                 _runtimeNodes.Add(part.gameObject);
             }
+        }
+
+        private List<CombinePartContext> BuildPartContextList(CombineFormContext context)
+        {
+            if (context.Parts != null && context.Parts.Count > 0)
+            {
+                return context.Parts;
+            }
+
+            List<CombinePartContext> fallbackParts = new List<CombinePartContext>(context.Slots.Count);
+            for (int i = 0; i < context.Slots.Count; i++)
+            {
+                CombineSlotContext slot = context.Slots[i];
+                fallbackParts.Add(new CombinePartContext
+                {
+                    PartType = slot.RequiredPartType,
+                    PartDisplayName = slot.RequiredPartType.ToString(),
+                    MechanicsExplanation = slot.MechanicsExplanation,
+                    LockAfterPlaced = true
+                });
+            }
+
+            return fallbackParts;
+        }
+
+        private void SetPartSpawnPosition(CombineDraggablePart part, int index)
+        {
+            RectTransform partRect = part.transform as RectTransform;
+            if (partRect == null || _partRoot == null)
+            {
+                return;
+            }
+
+            Rect rootRect = _partRoot.rect;
+            if (rootRect.width <= 0f || rootRect.height <= 0f)
+            {
+                partRect.anchoredPosition = _partStartAnchoredPosition + Vector2.down * (_partVerticalSpacing * index);
+                return;
+            }
+
+            float minX = Mathf.Lerp(rootRect.xMin, rootRect.xMax, Mathf.Min(_partSpawnMinXNormalized, _partSpawnMaxXNormalized));
+            float maxX = Mathf.Lerp(rootRect.xMin, rootRect.xMax, Mathf.Max(_partSpawnMinXNormalized, _partSpawnMaxXNormalized));
+            float minY = Mathf.Lerp(rootRect.yMin, rootRect.yMax, Mathf.Min(_partSpawnMinYNormalized, _partSpawnMaxYNormalized));
+            float maxY = Mathf.Lerp(rootRect.yMin, rootRect.yMax, Mathf.Max(_partSpawnMinYNormalized, _partSpawnMaxYNormalized));
+
+            partRect.anchoredPosition = new Vector2(
+                Random.Range(minX, maxX),
+                Random.Range(minY, maxY));
         }
 
         #endregion
