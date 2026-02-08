@@ -1,0 +1,9 @@
+#	界面配置表					
+#	Id		AssetName	UIGroupName	AllowMultiInstance	PauseCoveredUIForm
+#	int		string	string	bool	bool
+#	界面编号	策划备注	资源名称	界面组名称	是否允许多个界面实例	是否暂停被其覆盖的界面
+	1	弹出框	DialogForm	Default	True	True
+	100	主菜单	MenuForm	Default	False	True
+	101	设置	SettingForm	Default	False	True
+	102	关于	AboutForm	Default	False	True
+	103	�����淨A MVC���Խ���	CoreGameplayAMvcForm	Default	False	True
