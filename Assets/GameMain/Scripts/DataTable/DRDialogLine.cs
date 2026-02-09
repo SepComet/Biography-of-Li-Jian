@@ -11,7 +11,7 @@ namespace DataTable
         /// <summary>
         /// 获取对话行编号
         /// </summary>
-        public override int Id { get; }
+        public override int Id => m_Id;
 
         /// <summary>
         /// 获取说话人 Id。
@@ -57,7 +57,7 @@ namespace DataTable
             Direction = int.Parse(fields[index++]);
             Text = fields[index++];
             Emphasis = EnumUtility<EmphasisType>.Get(fields[index++]);
-            
+
             return true;
         }
     }

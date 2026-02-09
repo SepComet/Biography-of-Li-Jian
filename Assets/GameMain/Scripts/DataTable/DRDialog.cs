@@ -32,7 +32,7 @@ namespace DataTable
             index++;
             Title = fields[index++];
             UIMode = EnumUtility<DialogUIMode>.Get(fields[index++]);
-            
+
             return true;
         }
     }

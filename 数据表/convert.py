@@ -28,7 +28,8 @@ def convert_excel_to_txt(folder_path='.'):
             print(f"正在处理: {file_path}...")
 
             try:
-                df = pd.read_excel(file_path, header=None)
+                # 保留单元格中的 "None" 文本，避免被 pandas 当作缺失值转为空
+                df = pd.read_excel(file_path, header=None, keep_default_na=False)
 
                 df.to_csv(output_file, sep='\t', index=False, header=False, encoding='utf-8')
 

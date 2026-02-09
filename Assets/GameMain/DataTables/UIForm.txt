@@ -6,3 +6,4 @@
 	100	主菜单	MenuForm	Default	False	True
 	101	设置	SettingForm	Default	False	True
 	102	关于	AboutForm	Default	False	True
+	103	组装玩法UI	CombineForm	Default	False	False
