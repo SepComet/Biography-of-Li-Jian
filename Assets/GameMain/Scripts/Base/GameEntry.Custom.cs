@@ -15,10 +15,12 @@ public partial class GameEntry : MonoBehaviour
 {
     public static BuiltinDataComponent BuiltinData { get; private set; }
     public static CombineComponent Combine { get; private set; }
+    public static DialogComponent Dialog { get; private set; }
 
     private static void InitCustomComponents()
     {
         BuiltinData = UnityGameFramework.Runtime.GameEntry.GetComponent<BuiltinDataComponent>();
         Combine = UnityGameFramework.Runtime.GameEntry.GetComponent<CombineComponent>();
+        Dialog = UnityGameFramework.Runtime.GameEntry.GetComponent<DialogComponent>();
     }
 }

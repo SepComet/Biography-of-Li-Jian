@@ -1,6 +1,6 @@
 namespace Definition.Enum
 {
-    public enum DialogUIMode
+    public enum DialogFormMode
     {
         None = 0,
         

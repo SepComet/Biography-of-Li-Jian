@@ -21,7 +21,7 @@ namespace DataTable
         /// <summary>
         /// 获取对话形式。
         /// </summary>
-        public DialogUIMode UIMode { get; private set; }
+        public DialogFormMode UIMode { get; private set; }
 
         public override bool ParseDataRow(string dataRowString, object userData)
         {
@@ -31,7 +31,7 @@ namespace DataTable
             m_Id = int.Parse(fields[index++]);
             index++;
             Title = fields[index++];
-            UIMode = EnumUtility<DialogUIMode>.Get(fields[index++]);
+            UIMode = EnumUtility<DialogFormMode>.Get(fields[index++]);
 
             return true;
         }
