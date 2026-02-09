@@ -8,5 +8,5 @@
 	102	关于	AboutForm	Default	False	True
 	103	组装玩法UI	CombineForm	Default	False	False
 	104	Mask对话UI	MaskDialogForm	Default	False	False
-	105	Bottom对话UI	BottomDialogForm	Default	False	False
+	105	Bottom对话UI	BottomBoxDialogForm	Default	False	False
 	106	Bubble对话UI	BubbleDialogForm	Default	True	False

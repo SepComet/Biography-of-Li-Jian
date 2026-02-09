@@ -47,7 +47,7 @@ namespace UI
         /// <summary>
         /// 底部剧情对话界面。
         /// </summary>
-        BottomDialogForm = 105,
+        BottomBoxDialogForm = 105,
 
         /// <summary>
         /// 气泡剧情对话界面。

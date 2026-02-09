@@ -615,7 +615,7 @@ GameObject:
   - component: {fileID: 4643264964412212504}
   - component: {fileID: 2327325990879817607}
   m_Layer: 5
-  m_Name: BottomDialogForm
+  m_Name: BottomBoxDialogForm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

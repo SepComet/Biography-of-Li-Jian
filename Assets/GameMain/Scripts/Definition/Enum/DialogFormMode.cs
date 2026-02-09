@@ -17,6 +17,6 @@ namespace Definition.Enum
         /// <summary>
         /// 对话气泡
         /// </summary>
-        BubbleBox = 3
+        Bubble = 3
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using Definition.Enum;
 using GameFramework.Event;
 using UnityGameFramework.Runtime;
@@ -109,9 +110,9 @@ namespace UI
                 case DialogFormMode.Mask:
                     return UIFormId.MaskDialogForm;
                 case DialogFormMode.BottomBox:
-                    return UIFormId.BottomDialogForm;
-                case DialogFormMode.BubbleBox:
-                    return UIFormId.BottomDialogForm;
+                    return UIFormId.BottomBoxDialogForm;
+                case DialogFormMode.Bubble:
+                    throw new NotImplementedException("BubbleBox 对话框尚未实现");
                 default:
                     return UIFormId.Undefined;
             }

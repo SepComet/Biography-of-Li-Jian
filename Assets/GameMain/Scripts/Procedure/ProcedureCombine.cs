@@ -90,8 +90,8 @@ namespace Procedure
             //InitializeProcedureState();
             GameEntry.Dialog.Init(1);
             
-            GameEntry.Dialog.StartDialog(1001);
-            //GameEntry.Dialog.StartDialog(1002);
+            //GameEntry.Dialog.StartDialog(1001);
+            GameEntry.Dialog.StartDialog(1002);
         }
 
         /// <summary>

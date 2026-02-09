@@ -2,7 +2,7 @@
 #	Id		SpeakerId	Expression	SpeakerName	Direction	Text	Emphasis	ChapterId	DialogId
 #	int		string	ExpressionType	string	int	string	EmphasisType	int	int
 #	对话行编号	策划备注	说话人Id	表情	显示人名	说话朝向	说话内容	演出效果	章节Id	对话Id
-	100100001	Id规则为	Null	None	Null	0	相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。相传。	None	1.00100001	1001.00001
+	100100001	Id规则为	Null	None	Null	0	相传。	None	1.00100001	1001.00001
 	100100002	第1位数为章节Id	Null	None	Null	0	Mask。	None	1.00100002	1001.00002
 	100100003	第2-4位数为对话Id	Null	None	Null	0	很好。	None	1.00100003	1001.00003
 	100200001	第5-9位数为对话行Id	Xu	Normal	徐晟壹	0	你好，王。	None	1.00200001	1002.00001
