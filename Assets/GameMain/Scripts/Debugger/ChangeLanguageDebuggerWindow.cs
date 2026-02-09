@@ -5,6 +5,7 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
+using Definition;
 using GameFramework.Debugger;
 using GameFramework.Localization;
 using UnityEngine;

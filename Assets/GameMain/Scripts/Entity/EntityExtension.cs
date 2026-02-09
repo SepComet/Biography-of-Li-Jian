@@ -7,6 +7,8 @@
 
 using GameFramework.DataTable;
 using System;
+using CustomUtility;
+using DataTable;
 using Entity;
 using Entity.EntityData;
 using UnityGameFramework.Runtime;

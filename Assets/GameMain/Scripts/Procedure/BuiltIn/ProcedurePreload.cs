@@ -1,15 +1,10 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using GameFramework;
+﻿using GameFramework;
 using GameFramework.Event;
 using GameFramework.Resource;
 using System.Collections.Generic;
-using StarForce;
+using CustomUtility;
+using DataTable;
+using Definition;
 using TMPro;
 using UI;
 using UnityEngine;
@@ -28,6 +23,8 @@ namespace Procedure
             "Sound",
             "UIForm",
             "UISound",
+            "Dialog",
+            "DialogLine"
         };
 
         private Dictionary<string, bool> _loadedFlag = new Dictionary<string, bool>();

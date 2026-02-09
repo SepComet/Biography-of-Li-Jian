@@ -85,3 +85,11 @@ crashlytics-build.properties
 /Assets/RawResources
 
 /.vscode
+
+# Excel temporary lock files
+~$*.xls
+~$*.xlsx
+~$*.xlsm
+~$*.xlsb
+
+/数据表/__pycache__

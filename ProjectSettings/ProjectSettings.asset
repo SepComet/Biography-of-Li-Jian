@@ -812,11 +812,23 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Android: ENABLE_DEBUG_AND_ABOVE_LOG
-    Standalone: ENABLE_DEBUG_AND_ABOVE_LOG
-    WebGL: ENABLE_DEBUG_AND_ABOVE_LOG
-    Windows Store Apps: ENABLE_DEBUG_AND_ABOVE_LOG
-    iPhone: ENABLE_DEBUG_AND_ABOVE_LOG
+    Android: ENABLE_DEBUG_AND_ABOVE_LOG;DOTWEEN
+    EmbeddedLinux: DOTWEEN
+    GameCoreScarlett: DOTWEEN
+    GameCoreXboxOne: DOTWEEN
+    LinuxHeadlessSimulation: DOTWEEN
+    Nintendo Switch: DOTWEEN
+    PS4: DOTWEEN
+    PS5: DOTWEEN
+    QNX: DOTWEEN
+    Stadia: DOTWEEN
+    Standalone: ENABLE_DEBUG_AND_ABOVE_LOG;DOTWEEN
+    VisionOS: DOTWEEN
+    WebGL: ENABLE_DEBUG_AND_ABOVE_LOG;DOTWEEN
+    Windows Store Apps: ENABLE_DEBUG_AND_ABOVE_LOG;DOTWEEN
+    XboxOne: DOTWEEN
+    iPhone: ENABLE_DEBUG_AND_ABOVE_LOG;DOTWEEN
+    tvOS: DOTWEEN
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
