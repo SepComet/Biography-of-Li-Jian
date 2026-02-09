@@ -1,0 +1,7 @@
+#	对话标识表				筛选用数据
+#	Id		Title	UIMode	ChapterId
+#	int		string	DialogUIMode	int
+#	对话编号	策划备注	对话标识	对话形式	章节编号
+	1001	第一章介绍	Chapter1_Intro	Mask	1.001
+	1002	第一章主流程	Chapter1_Main	BottomBox	1.002
+	1003	第一章玩法开始前闲聊	Chapter1_SmallTalk1	Bubble	1.003

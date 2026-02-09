@@ -6,4 +6,7 @@
 	100	主菜单	MenuForm	Default	False	True
 	101	设置	SettingForm	Default	False	True
 	102	关于	AboutForm	Default	False	True
-	103	�����淨A MVC���Խ���	CombineForm	Default	False	True
+	103	组装玩法UI	CombineForm	Default	False	False
+	104	Mask对话UI	MaskDialogForm	Default	False	False
+	105	Bottom对话UI	BottomBoxDialogForm	Default	False	False
+	106	Bubble对话UI	BubbleDialogForm	Default	True	False

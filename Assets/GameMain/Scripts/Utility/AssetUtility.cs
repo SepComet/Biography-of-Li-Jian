@@ -7,7 +7,7 @@
 
 using GameFramework;
 
-namespace StarForce
+namespace CustomUtility
 {
     public static class AssetUtility
     {
@@ -64,6 +64,11 @@ namespace StarForce
         public static string GetUISoundAsset(string assetName)
         {
             return Utility.Text.Format("Assets/GameMain/UI/UISounds/{0}.wav", assetName);
+        }
+
+        public static string GetUIDialogAsset(string assetName)
+        {
+            return Utility.Text.Format("Assets/GameMain/UI/Dialogs/{0}.prefab", assetName);
         }
     }
 }

@@ -1,13 +1,9 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using GameFramework.DataTable;
+﻿using GameFramework.DataTable;
 using GameFramework.UI;
 using System.Collections;
+using CustomUtility;
+using DataTable;
+using Definition;
 using Procedure;
 using StarForce;
 using UnityEngine;

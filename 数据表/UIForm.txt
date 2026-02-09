@@ -6,4 +6,7 @@
 	100	ä¸»èœå•	MenuForm	Default	False	True
 	101	è®¾ç½®	SettingForm	Default	False	True
 	102	å…³äº	AboutForm	Default	False	True
-	103	ºËĞÄÍæ·¨A MVC²âÊÔ½çÃæ	CoreGameplayAMvcForm	Default	False	True
+	103	ç»„è£…ç©æ³•UI	CombineForm	Default	False	False
+	104	Maskå¯¹è¯UI	MaskDialogForm	Default	False	False
+	105	Bottomå¯¹è¯UI	BottomBoxDialogForm	Default	False	False
+	106	Bubbleå¯¹è¯UI	BubbleDialogForm	Default	True	False

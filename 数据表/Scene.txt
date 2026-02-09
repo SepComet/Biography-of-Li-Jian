@@ -5,4 +5,4 @@
 	1	菜单场景	Menu	1
 	2	战斗场景	Main	2
 	3	压力测试场景	StressTest	0
-	4	玩法A测试场景	GameplayA	0
+	4		GameplayA	0

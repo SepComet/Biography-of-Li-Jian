@@ -38,5 +38,20 @@ namespace UI
         /// 核心玩法A MVC测试界面。
         /// </summary>
         CombineForm = 103,
+
+        /// <summary>
+        /// 蒙版剧情对话界面。
+        /// </summary>
+        MaskDialogForm = 104,
+
+        /// <summary>
+        /// 底部剧情对话界面。
+        /// </summary>
+        BottomBoxDialogForm = 105,
+
+        /// <summary>
+        /// 气泡剧情对话界面。
+        /// </summary>
+        BubbleDialogForm = 106,
     }
 }

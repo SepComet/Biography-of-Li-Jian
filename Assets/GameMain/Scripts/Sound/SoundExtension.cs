@@ -5,6 +5,9 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
+using CustomUtility;
+using DataTable;
+using Definition;
 using Entity;
 using GameFramework;
 using GameFramework.DataTable;

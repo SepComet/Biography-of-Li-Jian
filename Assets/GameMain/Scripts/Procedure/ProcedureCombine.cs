@@ -87,7 +87,11 @@ namespace Procedure
         {
             base.OnEnter(procedureOwner);
 
-            InitializeProcedureState();
+            //InitializeProcedureState();
+            GameEntry.Dialog.Init(1);
+            
+            //GameEntry.Dialog.StartDialog(1001);
+            GameEntry.Dialog.StartDialog(1002);
         }
 
         /// <summary>
@@ -109,12 +113,16 @@ namespace Procedure
         {
             base.OnUpdate(procedureOwner, elapseSeconds, realElapseSeconds);
 
-            if (TryUpdateRound(realElapseSeconds))
+            if (GameEntry.Dialog.IsInitialized)
             {
-                return;
+                
             }
-
-            TryRestartScene(procedureOwner, realElapseSeconds);
+            // if (TryUpdateRound(realElapseSeconds))
+            // {
+            //     return;
+            // }
+            //
+            // TryRestartScene(procedureOwner, realElapseSeconds);
         }
 
         #endregion

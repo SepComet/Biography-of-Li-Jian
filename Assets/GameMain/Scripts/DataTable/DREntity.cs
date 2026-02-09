@@ -16,7 +16,7 @@ using System.Text;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace StarForce
+namespace DataTable
 {
     /// <summary>
     /// 实体表。
@@ -28,13 +28,7 @@ namespace StarForce
         /// <summary>
         /// 获取实体编号。
         /// </summary>
-        public override int Id
-        {
-            get
-            {
-                return m_Id;
-            }
-        }
+        public override int Id => m_Id;
 
         /// <summary>
         /// 获取资源名称。
