@@ -4,6 +4,8 @@ namespace UI
 {
     public class DialogFormContext : UIContext
     {
+        public float PlayingSpeed = 1f;
+
         public int ChapterId = 0;
         public int DialogId = 0;
         public string DialogTitle = string.Empty;

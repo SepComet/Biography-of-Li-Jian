@@ -1,14 +1,17 @@
+using System.Collections;
 using Definition.Enum;
 using Event;
+using TMPro;
 using UnityEngine;
 
 namespace UI
 {
     public abstract class DialogFormBase : UGuiForm
     {
-        [SerializeField] protected float _playSpeed;
-
         protected DialogFormContext _context;
+        private Coroutine _typingCoroutine;
+        private TMP_Text _typingTargetText;
+        private bool _isTypewriting;
 
         public abstract DialogFormMode UIMode { get; }
 
@@ -29,12 +32,18 @@ namespace UI
 
         protected override void OnClose(bool isShutdown, object userData)
         {
+            StopTypewriter();
             _context = null;
             base.OnClose(isShutdown, userData);
         }
 
         public void OnClickNextLine()
         {
+            if (CompleteTypewriterIfRunning())
+            {
+                return;
+            }
+
             GameEntry.Event.Fire(this, DialogNextLineRequestEventArgs.Create());
         }
 
@@ -48,24 +57,90 @@ namespace UI
             GameEntry.Event.Fire(this, DialogStopRequestEventArgs.Create());
         }
 
-        protected static string NormalizeValue(string value)
+        protected void PlayTypewriter(TMP_Text targetText, string text, float charsPerSecond)
         {
-            if (string.IsNullOrEmpty(value))
+            StopTypewriter();
+
+            if (targetText == null)
             {
-                return string.Empty;
+                return;
             }
 
-            if (string.Equals(value, "Null", System.StringComparison.OrdinalIgnoreCase))
+            string finalText = text ?? string.Empty;
+            _typingTargetText = targetText;
+
+            if (charsPerSecond <= 0f || string.IsNullOrEmpty(finalText))
             {
-                return string.Empty;
+                targetText.text = finalText;
+                targetText.maxVisibleCharacters = int.MaxValue;
+                _isTypewriting = false;
+                return;
             }
 
-            if (string.Equals(value, "None", System.StringComparison.OrdinalIgnoreCase))
+            _isTypewriting = true;
+            _typingCoroutine = StartCoroutine(TypewriterRoutine(targetText, finalText, charsPerSecond));
+        }
+
+        protected void StopTypewriter()
+        {
+            if (_typingCoroutine != null)
             {
-                return string.Empty;
+                StopCoroutine(_typingCoroutine);
+                _typingCoroutine = null;
             }
 
-            return value;
+            _typingTargetText = null;
+            _isTypewriting = false;
+        }
+
+        private bool CompleteTypewriterIfRunning()
+        {
+            if (!_isTypewriting || _typingTargetText == null)
+            {
+                return false;
+            }
+
+            _typingTargetText.maxVisibleCharacters = int.MaxValue;
+            StopTypewriter();
+            return true;
+        }
+
+        private IEnumerator TypewriterRoutine(TMP_Text targetText, string finalText, float charsPerSecond)
+        {
+            targetText.text = finalText;
+            targetText.ForceMeshUpdate();
+
+            int totalCharacters = targetText.textInfo.characterCount;
+            if (totalCharacters <= 0)
+            {
+                targetText.maxVisibleCharacters = int.MaxValue;
+                _typingCoroutine = null;
+                _typingTargetText = null;
+                _isTypewriting = false;
+                yield break;
+            }
+
+            targetText.maxVisibleCharacters = 0;
+            float elapsed = 0f;
+            int visibleCharacters = 0;
+
+            while (visibleCharacters < totalCharacters)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                int nextVisible = Mathf.Min(totalCharacters, Mathf.FloorToInt(elapsed * charsPerSecond));
+                if (nextVisible != visibleCharacters)
+                {
+                    visibleCharacters = nextVisible;
+                    targetText.maxVisibleCharacters = visibleCharacters;
+                }
+
+                yield return null;
+            }
+
+            targetText.maxVisibleCharacters = int.MaxValue;
+            _typingCoroutine = null;
+            _typingTargetText = null;
+            _isTypewriting = false;
         }
     }
 }

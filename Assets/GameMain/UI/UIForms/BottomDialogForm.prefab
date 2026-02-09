@@ -116,7 +116,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 3708131469420921886}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -321,7 +321,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4594737505273760298
 RectTransform:
   m_ObjectHideFlags: 0
@@ -679,12 +679,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playSpeed: 0
+  _speakerArea: {fileID: 3736358320082617150}
   _speakerNameText: {fileID: 2470970474825277305}
   _contentText: {fileID: 6431296888118130931}
   _leftSprite: {fileID: 7945103967507868302}
   _rightSprite: {fileID: 5385698520020721016}
   _leftSpritePosition: 450
   _rightSpritePosition: -450
+  _moveDuration: 0.25
+  _moveEase: 9
 --- !u!1 &7381337123922490182
 GameObject:
   m_ObjectHideFlags: 0
@@ -837,7 +840,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1023330169278438415
 RectTransform:
   m_ObjectHideFlags: 0
