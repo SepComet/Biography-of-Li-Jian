@@ -1,9 +1,9 @@
 ﻿using CustomUtility;
 using DataTable;
 using Definition;
+using Definition.Enum;
 using GameFramework.DataTable;
 using GameFramework.Event;
-using Scene;
 using StarForce;
 using UnityGameFramework.Runtime;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;

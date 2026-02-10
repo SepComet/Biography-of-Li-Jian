@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using CustomUtility;
 using DataTable;
 using Definition;
+using Definition.Enum;
 using TMPro;
 using UI;
 using UnityEngine;
@@ -71,7 +72,7 @@ namespace Procedure
                 }
             }
 
-            procedureOwner.SetData<VarInt32>("NextSceneId", GameEntry.Config.GetInt("Scene.GameplayA"));
+            procedureOwner.SetData<VarInt32>("NextSceneId", (int)SceneId.Main);
             ChangeState<ProcedureChangeScene>(procedureOwner);
         }
 
@@ -118,35 +119,37 @@ namespace Procedure
         private void LoadFont(string fontName)
         {
             _loadedFlag.Add(Utility.Text.Format("Font.{0}", fontName), false);
-            GameEntry.Resource.LoadAsset(AssetUtility.GetFontAsset(fontName), Constant.AssetPriority.FontAsset, new LoadAssetCallbacks(
-                (assetName, asset, duration, userData) =>
-                {
-                    _loadedFlag[Utility.Text.Format("Font.{0}", fontName)] = true;
-                    UGuiForm.SetMainFont((Font)asset);
-                    Log.Info("Load font '{0}' OK.", fontName);
-                },
-
-                (assetName, status, errorMessage, userData) =>
-                {
-                    Log.Error("Can not load font '{0}' from '{1}' with error message '{2}'.", fontName, assetName, errorMessage);
-                }));
+            GameEntry.Resource.LoadAsset(AssetUtility.GetFontAsset(fontName), Constant.AssetPriority.FontAsset,
+                new LoadAssetCallbacks(
+                    (assetName, asset, duration, userData) =>
+                    {
+                        _loadedFlag[Utility.Text.Format("Font.{0}", fontName)] = true;
+                        UGuiForm.SetMainFont((Font)asset);
+                        Log.Info("Load font '{0}' OK.", fontName);
+                    },
+                    (assetName, status, errorMessage, userData) =>
+                    {
+                        Log.Error("Can not load font '{0}' from '{1}' with error message '{2}'.", fontName, assetName,
+                            errorMessage);
+                    }));
         }
 
         private void LoadTMPFont(string fontName)
         {
             _loadedFlag.Add(Utility.Text.Format("Font.{0}", fontName), false);
-            GameEntry.Resource.LoadAsset(AssetUtility.GetTMPFontAsset(fontName), Constant.AssetPriority.FontAsset, new LoadAssetCallbacks(
-                (assetName, asset, duration, userData) =>
-                {
-                    _loadedFlag[Utility.Text.Format("Font.{0}", fontName)] = true;
-                    UGuiForm.SetMainTMPFont((TMP_FontAsset)asset);
-                    Log.Info("Load font '{0}' OK.", fontName);
-                },
-
-                (assetName, status, errorMessage, userData) =>
-                {
-                    Log.Error("Can not load font '{0}' from '{1}' with error message '{2}'.", fontName, assetName, errorMessage);
-                }));
+            GameEntry.Resource.LoadAsset(AssetUtility.GetTMPFontAsset(fontName), Constant.AssetPriority.FontAsset,
+                new LoadAssetCallbacks(
+                    (assetName, asset, duration, userData) =>
+                    {
+                        _loadedFlag[Utility.Text.Format("Font.{0}", fontName)] = true;
+                        UGuiForm.SetMainTMPFont((TMP_FontAsset)asset);
+                        Log.Info("Load font '{0}' OK.", fontName);
+                    },
+                    (assetName, status, errorMessage, userData) =>
+                    {
+                        Log.Error("Can not load font '{0}' from '{1}' with error message '{2}'.", fontName, assetName,
+                            errorMessage);
+                    }));
         }
 
         private void OnLoadConfigSuccess(object sender, GameEventArgs e)
@@ -169,7 +172,8 @@ namespace Procedure
                 return;
             }
 
-            Log.Error("Can not load config '{0}' from '{1}' with error message '{2}'.", ne.ConfigAssetName, ne.ConfigAssetName, ne.ErrorMessage);
+            Log.Error("Can not load config '{0}' from '{1}' with error message '{2}'.", ne.ConfigAssetName,
+                ne.ConfigAssetName, ne.ErrorMessage);
         }
 
         private void OnLoadDataTableSuccess(object sender, GameEventArgs e)
@@ -192,7 +196,8 @@ namespace Procedure
                 return;
             }
 
-            Log.Error("Can not load data table '{0}' from '{1}' with error message '{2}'.", ne.DataTableAssetName, ne.DataTableAssetName, ne.ErrorMessage);
+            Log.Error("Can not load data table '{0}' from '{1}' with error message '{2}'.", ne.DataTableAssetName,
+                ne.DataTableAssetName, ne.ErrorMessage);
         }
 
         private void OnLoadDictionarySuccess(object sender, GameEventArgs e)
@@ -215,7 +220,8 @@ namespace Procedure
                 return;
             }
 
-            Log.Error("Can not load dictionary '{0}' from '{1}' with error message '{2}'.", ne.DictionaryAssetName, ne.DictionaryAssetName, ne.ErrorMessage);
+            Log.Error("Can not load dictionary '{0}' from '{1}' with error message '{2}'.", ne.DictionaryAssetName,
+                ne.DictionaryAssetName, ne.ErrorMessage);
         }
     }
 }
