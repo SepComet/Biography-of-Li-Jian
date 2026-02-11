@@ -1,7 +1,4 @@
-﻿using GameFramework;
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using UnityEngine;
 using UnityGameFramework.Runtime;
@@ -9,14 +6,14 @@ using UnityGameFramework.Runtime;
 namespace DataTable
 {
     /// <summary>
-    /// 声音配置表。
+    /// 音乐配置表。
     /// </summary>
-    public class DRUISound : DataRowBase
+    public class DRBGM : DataRowBase
     {
         private int m_Id = 0;
 
         /// <summary>
-        /// 获取声音编号。
+        /// 获取音乐编号。
         /// </summary>
         public override int Id
         {
@@ -35,24 +32,6 @@ namespace DataTable
             private set;
         }
 
-        /// <summary>
-        /// 获取优先级（默认0，128最高，-128最低）。
-        /// </summary>
-        public int Priority
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// 获取音量（0~1）。
-        /// </summary>
-        public float Volume
-        {
-            get;
-            private set;
-        }
-
         public override bool ParseDataRow(string dataRowString, object userData)
         {
             string[] columnStrings = dataRowString.Split(DataTableExtension.DataSplitSeparators);
@@ -66,8 +45,6 @@ namespace DataTable
             m_Id = int.Parse(columnStrings[index++]);
             index++;
             AssetName = columnStrings[index++];
-            Priority = int.Parse(columnStrings[index++]);
-            Volume = float.Parse(columnStrings[index++]);
 
             GeneratePropertyArray();
             return true;
@@ -81,8 +58,6 @@ namespace DataTable
                 {
                     m_Id = binaryReader.Read7BitEncodedInt32();
                     AssetName = binaryReader.ReadString();
-                    Priority = binaryReader.Read7BitEncodedInt32();
-                    Volume = binaryReader.ReadSingle();
                 }
             }
 

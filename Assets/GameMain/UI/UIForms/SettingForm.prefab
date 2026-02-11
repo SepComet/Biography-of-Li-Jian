@@ -4564,7 +4564,7 @@ GameObject:
   - component: {fileID: 5634799414351515039}
   - component: {fileID: 8849553200166011154}
   m_Layer: 5
-  m_Name: ScreenSolution
+  m_Name: ScreenResolution
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

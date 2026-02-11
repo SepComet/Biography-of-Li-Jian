@@ -25,6 +25,7 @@ namespace UI
                 return null;
             }
 
+            context.Controller = this;
             _context = context;
 
             if (_settingForm != null)

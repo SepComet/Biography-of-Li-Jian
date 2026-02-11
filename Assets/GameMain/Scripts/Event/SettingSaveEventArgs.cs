@@ -11,7 +11,7 @@ namespace Event
         public override int Id => EventId;
 
 
-        public GameSetting? GameSettings;
+        public GameSetting GameSettings;
 
         public SettingSaveEventArgs()
         {
@@ -26,7 +26,7 @@ namespace Event
 
         public override void Clear()
         {
-            GameSettings = null;
+            GameSettings = new GameSetting();
         }
     }
 }

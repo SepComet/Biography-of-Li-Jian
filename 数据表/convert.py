@@ -5,10 +5,17 @@ import pandas as pd
 
 
 def convert_excel_to_txt(folder_path='.'):
-    # 计数器，用于最后统计
+    # ✅ 关键修复：将 '.' 转换为脚本所在目录的绝对路径
+    if folder_path == '.':
+        folder_path = os.path.dirname(os.path.abspath(__file__))
+    
+    print(f"【调试】当前工作目录: {os.getcwd()}")
+    print(f"【调试】遍历起始目录: {folder_path}\n")
+    
     count = 0
-    target_dir = os.path.join(os.path.dirname(__file__), '../Assets/GameMain/DataTables')
+    target_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../Assets/GameMain/DataTables')
     target_dir = os.path.abspath(target_dir)
+    # ... 后续代码不变
 
     # 确保目标目录存在
     os.makedirs(target_dir, exist_ok=True)

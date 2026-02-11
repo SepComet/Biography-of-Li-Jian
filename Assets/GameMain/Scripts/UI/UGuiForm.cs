@@ -1,13 +1,6 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using StarForce;
+using Sound;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -51,7 +44,7 @@ namespace UI
 
         public void PlayUISound(int uiSoundId)
         {
-            GameEntry.Sound.PlayUISound(uiSoundId);
+            GameEntry.Sound.PlaySE(uiSoundId);
         }
 
         public static void SetMainFont(Font mainFont)
@@ -108,10 +101,6 @@ namespace UI
                 foreach (var text in tmp_texts)
                 {
                     text.font = _mainTMPFont;
-                    if (!string.IsNullOrEmpty(text.text))
-                    {
-                        text.text = GameEntry.Localization.GetString(text.text);
-                    }
                 }
             }
 
@@ -125,10 +114,6 @@ namespace UI
                 foreach (var text in texts)
                 {
                     text.font = _mainFont;
-                    if (!string.IsNullOrEmpty(text.text))
-                    {
-                        text.text = GameEntry.Localization.GetString(text.text);
-                    }
                 }
             }
         }

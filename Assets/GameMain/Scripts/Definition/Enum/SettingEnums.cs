@@ -15,14 +15,20 @@ namespace Definition.Enum
         High
     }
 
-    public enum ScreenSolutionType : byte
+    public enum ScreenResolutionType : byte
     {
+        _1280x720,
+        _1366x768,
+        _1600x900,
+        _1920x1080,
+        _2560x1440,
+        _2560x1600
     }
 
     public enum ScreenWindowType : byte
     {
-        NoneBoard,
-        Window,
-        FullScreen
+        Borderless,
+        FullScreen,
+        Windowed,
     }
 }

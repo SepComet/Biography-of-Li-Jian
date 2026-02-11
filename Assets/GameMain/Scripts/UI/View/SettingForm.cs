@@ -46,15 +46,15 @@ namespace UI
 
             var setting = context.Setting;
 
-            _bgmVolumeSlider.value = setting.BGMVolume;
-            _seVolumeSlider.value = setting.SEVolume;
+            _bgmVolumeSlider.value = setting.BGMVolume * 4;
+            _seVolumeSlider.value = setting.SEVolume * 4;
 
             _allowBlinkGroup.SetValue(setting.AllowBlink);
             _allowShakeGroup.SetValue(setting.AllowShake);
             _dialogWindowAlpha.SetValue((int)setting.DialogWindowAlpha);
-            _playingSpeed.SetValue((int)setting.PlayingSpeed);
+            _playingSpeed.SetValue((int)setting.DialogPlayingSpeed);
 
-            _screenSolution.SetValue((int)setting.ScreenSolution);
+            _screenSolution.SetValue((int)setting.ScreenResolution);
             _screenWindow.SetValue((int)setting.ScreenWindow);
             _vSyncGroup.SetValue(setting.VSync);
             _antiAliasingGroup.SetValue(setting.AntiAliasing);
@@ -77,15 +77,15 @@ namespace UI
         {
             var setting = new GameSetting
             {
-                BGMVolume = _bgmVolumeSlider.value,
-                SEVolume = _seVolumeSlider.value,
+                BGMVolume = _bgmVolumeSlider.value / 4,
+                SEVolume = _seVolumeSlider.value / 4,
 
                 AllowShake = _allowShakeGroup.GetBoolValue(),
                 AllowBlink = _allowBlinkGroup.GetBoolValue(),
                 DialogWindowAlpha = (DialogWindowAlpha)_dialogWindowAlpha.GetIntValue(),
-                PlayingSpeed = (DialogPlayingSpeed)_playingSpeed.GetIntValue(),
+                DialogPlayingSpeed = (DialogPlayingSpeed)_playingSpeed.GetIntValue(),
 
-                ScreenSolution = (ScreenSolutionType)_screenSolution.GetIntValue(),
+                ScreenResolution = (ScreenResolutionType)_screenSolution.GetIntValue(),
                 ScreenWindow = (ScreenWindowType)_screenWindow.GetIntValue(),
                 VSync = _vSyncGroup.GetBoolValue(),
                 AntiAliasing = _antiAliasingGroup.GetBoolValue()
@@ -129,6 +129,7 @@ namespace UI
         {
             var setting = CollectSetting();
             GameEntry.Event.Fire(this, SettingSaveEventArgs.Create(setting));
+            _controller.CloseUI();
         }
     }
 }

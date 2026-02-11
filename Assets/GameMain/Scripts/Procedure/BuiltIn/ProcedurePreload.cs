@@ -1,14 +1,19 @@
-﻿using GameFramework;
+﻿using System;
+using GameFramework;
 using GameFramework.Event;
 using GameFramework.Resource;
 using System.Collections.Generic;
+using System.Linq;
 using CustomUtility;
 using DataTable;
 using Definition;
 using Definition.Enum;
+using Setting;
+using Sound;
 using TMPro;
 using UI;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityGameFramework.Runtime;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
@@ -19,11 +24,10 @@ namespace Procedure
         public static readonly string[] DataTableNames = new string[]
         {
             "Entity",
-            "Music",
+            "BGM",
             "Scene",
-            "Sound",
             "UIForm",
-            "UISound",
+            "SE",
             "Dialog",
             "DialogLine"
         };
@@ -72,15 +76,12 @@ namespace Procedure
                 }
             }
 
-            procedureOwner.SetData<VarInt32>("NextSceneId", (int)SceneId.Main);
+            procedureOwner.SetData<VarInt32>("NextSceneId", (int)SceneId.Menu);
             ChangeState<ProcedureChangeScene>(procedureOwner);
         }
 
         private void PreloadResources()
         {
-            // Preload configs
-            LoadConfig("DefaultConfig");
-
             // Preload data tables
             foreach (string dataTableName in DataTableNames)
             {
@@ -88,18 +89,13 @@ namespace Procedure
             }
 
             // Preload dictionaries
-            LoadDictionary("Default");
+            // LoadDictionary("Default");
 
             // Preload fonts
             LoadFont("MainFont");
             LoadTMPFont("MainTMPFont");
-        }
 
-        private void LoadConfig(string configName)
-        {
-            string configAssetName = AssetUtility.GetConfigAsset(configName, false);
-            _loadedFlag.Add(configAssetName, false);
-            GameEntry.Config.ReadData(configAssetName, this);
+            LoadSetting();
         }
 
         private void LoadDataTable(string dataTableName)
@@ -151,6 +147,81 @@ namespace Procedure
                             errorMessage);
                     }));
         }
+
+        private void LoadSetting()
+        {
+            var setting = GameEntry.Setting.GetGameSetting();
+
+            GameEntry.Sound.SetVolume("BGM", setting.BGMVolume);
+            GameEntry.Sound.SetVolume("SE", setting.SEVolume);
+
+            ScreenResolutionType resolution = setting.ScreenResolution;
+            int width = 0, height = 0;
+            switch (resolution)
+            {
+                case ScreenResolutionType._1280x720:
+                    width = 1280;
+                    height = 720;
+                    break;
+                case ScreenResolutionType._1366x768:
+                    width = 1366;
+                    height = 768;
+                    break;
+                case ScreenResolutionType._1600x900:
+                    width = 1600;
+                    height = 900;
+                    break;
+                case ScreenResolutionType._1920x1080:
+                    width = 1920;
+                    height = 1080;
+                    break;
+                case ScreenResolutionType._2560x1440:
+                    width = 2560;
+                    height = 1440;
+                    break;
+                case ScreenResolutionType._2560x1600:
+                    width = 2560;
+                    height = 1600;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            ScreenWindowType resolutionWindow = setting.ScreenWindow;
+            switch (resolutionWindow)
+            {
+                case ScreenWindowType.FullScreen:
+                    Screen.SetResolution(width, height, FullScreenMode.ExclusiveFullScreen);
+                    break;
+                case ScreenWindowType.Borderless:
+                    Screen.SetResolution(width, height, FullScreenMode.FullScreenWindow);
+                    break;
+                case ScreenWindowType.Windowed:
+                    Screen.SetResolution(width, height, FullScreenMode.Windowed);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            Application.targetFrameRate = -1;
+            QualitySettings.vSyncCount = setting.VSync ? 1 : 0;
+            if (setting.AntiAliasing)
+            {
+                foreach (var asset in GraphicsSettings.allConfiguredRenderPipelines)
+                {
+                    if (asset.name == "URP-AntiAliasing") GraphicsSettings.renderPipelineAsset = asset;
+                }
+            }
+            else
+            {
+                foreach (var asset in GraphicsSettings.allConfiguredRenderPipelines)
+                {
+                    if (asset.name == "URP-Normal") GraphicsSettings.renderPipelineAsset = asset;
+                }
+            }
+        }
+
+        #region Event Hanlders
 
         private void OnLoadConfigSuccess(object sender, GameEventArgs e)
         {
@@ -223,5 +294,7 @@ namespace Procedure
             Log.Error("Can not load dictionary '{0}' from '{1}' with error message '{2}'.", ne.DictionaryAssetName,
                 ne.DictionaryAssetName, ne.ErrorMessage);
         }
+
+        #endregion
     }
 }

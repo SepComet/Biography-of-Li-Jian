@@ -38,7 +38,7 @@ namespace Definition.DataStruct
         /// <summary>
         /// 对话播放速度
         /// </summary>
-        public DialogPlayingSpeed PlayingSpeed { get; set; }
+        public DialogPlayingSpeed DialogPlayingSpeed { get; set; }
 
         #endregion
 
@@ -47,7 +47,7 @@ namespace Definition.DataStruct
         /// <summary>
         /// 屏幕分辨率
         /// </summary>
-        public ScreenSolutionType ScreenSolution { get; set; }
+        public ScreenResolutionType ScreenResolution { get; set; }
 
         /// <summary>
         /// 屏幕窗口模式

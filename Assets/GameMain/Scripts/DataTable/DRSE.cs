@@ -1,17 +1,4 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-// 此文件由工具自动生成，请勿直接修改。
-// 生成时间：2021-06-16 21:54:35.591
-//------------------------------------------------------------
-
-using GameFramework;
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using UnityEngine;
 using UnityGameFramework.Runtime;
@@ -19,14 +6,14 @@ using UnityGameFramework.Runtime;
 namespace DataTable
 {
     /// <summary>
-    /// 音乐配置表。
+    /// 声音配置表。
     /// </summary>
-    public class DRMusic : DataRowBase
+    public class DRSE : DataRowBase
     {
         private int m_Id = 0;
 
         /// <summary>
-        /// 获取音乐编号。
+        /// 获取声音编号。
         /// </summary>
         public override int Id
         {
@@ -45,6 +32,24 @@ namespace DataTable
             private set;
         }
 
+        /// <summary>
+        /// 获取优先级（默认0，128最高，-128最低）。
+        /// </summary>
+        public int Priority
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// 获取音量（0~1）。
+        /// </summary>
+        public float Volume
+        {
+            get;
+            private set;
+        }
+
         public override bool ParseDataRow(string dataRowString, object userData)
         {
             string[] columnStrings = dataRowString.Split(DataTableExtension.DataSplitSeparators);
@@ -58,6 +63,8 @@ namespace DataTable
             m_Id = int.Parse(columnStrings[index++]);
             index++;
             AssetName = columnStrings[index++];
+            Priority = int.Parse(columnStrings[index++]);
+            Volume = float.Parse(columnStrings[index++]);
 
             GeneratePropertyArray();
             return true;
@@ -71,6 +78,8 @@ namespace DataTable
                 {
                     m_Id = binaryReader.Read7BitEncodedInt32();
                     AssetName = binaryReader.ReadString();
+                    Priority = binaryReader.Read7BitEncodedInt32();
+                    Volume = binaryReader.ReadSingle();
                 }
             }
 

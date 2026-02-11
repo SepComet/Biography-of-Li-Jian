@@ -4,7 +4,7 @@ using Definition;
 using Definition.Enum;
 using GameFramework.DataTable;
 using GameFramework.Event;
-using StarForce;
+using Sound;
 using UnityGameFramework.Runtime;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
@@ -57,7 +57,8 @@ namespace Procedure
                 return;
             }
 
-            GameEntry.Scene.LoadScene(AssetUtility.GetSceneAsset(drScene.AssetName), Constant.AssetPriority.SceneAsset, this);
+            GameEntry.Scene.LoadScene(AssetUtility.GetSceneAsset(drScene.AssetName), Constant.AssetPriority.SceneAsset,
+                this);
             _backgroundMusicId = drScene.BackgroundMusicId;
         }
 
@@ -83,6 +84,9 @@ namespace Procedure
             SceneId sceneId = (SceneId)_nextSceneId;
             switch (sceneId)
             {
+                case SceneId.Menu:
+                    ChangeState<ProcedureMenu>(procedureOwner);
+                    break;
                 case SceneId.GameplayA:
                     ChangeState<ProcedureCombine>(procedureOwner);
                     break;
@@ -105,7 +109,7 @@ namespace Procedure
 
             if (_backgroundMusicId > 0)
             {
-                GameEntry.Sound.PlayMusic(_backgroundMusicId);
+                GameEntry.Sound.PlayBGM(_backgroundMusicId);
             }
 
             _isChangeSceneComplete = true;
@@ -141,7 +145,8 @@ namespace Procedure
                 return;
             }
 
-            Log.Info("Load scene '{0}' dependency asset '{1}', count '{2}/{3}'.", ne.SceneAssetName, ne.DependencyAssetName, ne.LoadedCount.ToString(), ne.TotalCount.ToString());
+            Log.Info("Load scene '{0}' dependency asset '{1}', count '{2}/{3}'.", ne.SceneAssetName,
+                ne.DependencyAssetName, ne.LoadedCount.ToString(), ne.TotalCount.ToString());
         }
     }
 }
