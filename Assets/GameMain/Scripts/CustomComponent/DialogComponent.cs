@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DataTable;
+using Definition;
 using Definition.Enum;
 using Event;
 using GameFramework.DataTable;
@@ -16,7 +17,7 @@ namespace CustomComponent
         #region Property
 
         [SerializeField] private float _playingSpeed = 1.0f;
-        
+
         private const int DialogChapterDivisor = 1000;
         private const int LineChapterDivisor = 100000000;
         private const int LineDialogDivisor = 100000;
@@ -216,6 +217,8 @@ namespace CustomComponent
             _formContext.DialogTitle = dialogRow.Title;
             _formContext.DialogUIMode = dialogRow.UIMode;
             _formContext.PlayingSpeed = Mathf.Max(0f, _playingSpeed);
+            _formContext.DialogWindowAlpha =
+                (DialogWindowAlpha)GameEntry.Setting.GetInt(Constant.Setting.DialogWindowAlpha);
 
             _currentLineIndex = 0;
             ApplyLineToContext(dialogLines[_currentLineIndex], _currentLineIndex, dialogLines.Count);

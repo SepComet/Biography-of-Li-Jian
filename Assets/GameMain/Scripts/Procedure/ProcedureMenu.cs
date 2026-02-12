@@ -10,6 +10,7 @@ using Sound;
 using UI;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityGameFramework.Runtime;
 
 
 namespace Procedure
@@ -23,9 +24,13 @@ namespace Procedure
         private SettingFormController _settingFormController;
 
         private const string SettingPrefix = "Setting.";
+        
+        private bool _gameStarted = false;
 
         private void StartGame()
         {
+            if (_gameStarted) return;
+            _gameStarted = true;
         }
 
         private void LoadGame()
@@ -71,6 +76,9 @@ namespace Procedure
 
         protected override void OnLeave(IFsm<IProcedureManager> procedureOwner, bool isShutdown)
         {
+            _menuFormController?.CloseUI();
+            _settingFormController?.CloseUI();
+            
             var e = GameEntry.Event;
             e.Unsubscribe(MenuStartEventArgs.EventId, MenuStart);
             e.Unsubscribe(MenuContinueEventArgs.EventId, MenuContinue);
@@ -85,6 +93,12 @@ namespace Procedure
             float realElapseSeconds)
         {
             base.OnUpdate(procedureOwner, elapseSeconds, realElapseSeconds);
+
+            if (_gameStarted)
+            {
+                procedureOwner.SetData<VarInt32>("NextSceneId", (int)SceneId.GameplayA);
+                ChangeState<ProcedureChangeScene>(procedureOwner);
+            }
         }
 
         #endregion
@@ -94,11 +108,13 @@ namespace Procedure
         private void MenuStart(object sender, GameEventArgs e)
         {
             if (!(e is MenuStartEventArgs)) return;
+            StartGame();
         }
 
         private void MenuContinue(object sender, GameEventArgs e)
         {
             if (!(e is MenuContinueEventArgs)) return;
+            LoadGame();
         }
 
         private void MenuSetting(object sender, GameEventArgs e)

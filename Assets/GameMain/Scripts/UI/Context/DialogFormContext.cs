@@ -22,5 +22,7 @@ namespace UI
         public int LineIndex = -1;
         public int TotalLines = 0;
         public bool IsLastLine = false;
+        
+        public DialogWindowAlpha DialogWindowAlpha = DialogWindowAlpha.Medium;
     }
 }

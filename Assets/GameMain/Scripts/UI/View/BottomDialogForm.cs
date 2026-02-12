@@ -1,4 +1,6 @@
-﻿using DG.Tweening;
+﻿using System.Collections.Generic;
+using System.Linq;
+using DG.Tweening;
 using Definition.Enum;
 using TMPro;
 using UnityEngine;
@@ -28,12 +30,15 @@ namespace UI
         [SerializeField] private float _moveDuration = 0.25f;
 
         [SerializeField] private Ease _moveEase = Ease.OutCubic;
-        
+
+        [SerializeField] private Image[] _dialogBgImages;
+
         private readonly int _singleSpeakerCenterPosition = Screen.width / 2;
 
         private string _leftSpeakerToken = string.Empty;
         private string _rightSpeakerToken = string.Empty;
         private Sequence _layoutSequence;
+        private DialogWindowAlpha _currentWindowAlpha = DialogWindowAlpha.Medium;
 
         public override void StartDialog(DialogFormContext context)
         {
@@ -44,6 +49,32 @@ namespace UI
             }
 
             _context = context;
+
+            if (_context.DialogWindowAlpha != this._currentWindowAlpha)
+            {
+                _currentWindowAlpha = _context.DialogWindowAlpha;
+                float targetAlpha = _currentWindowAlpha switch
+                {
+                    DialogWindowAlpha.None => 1,
+                    DialogWindowAlpha.Low => 0.75f,
+                    DialogWindowAlpha.Medium => 0.5f,
+                    DialogWindowAlpha.High => 0.25f,
+                    _ => 0.5f
+                };
+                
+                if (_dialogBgImages.Length == 0)
+                {
+                    //TODO:一个很奇怪的问题，在 prefab 里赋好的值实例化出来就没了，只能先这样赋值
+                    _dialogBgImages = GetComponentsInChildren<Image>().Where(image => image.name == "bg").ToArray();
+                }
+
+                foreach (Image image in _dialogBgImages)
+                {
+                    Color color = image.color;
+                    color.a = targetAlpha;
+                    image.color = color;
+                }
+            }
 
             string speakerName = _context.SpeakerName;
 
