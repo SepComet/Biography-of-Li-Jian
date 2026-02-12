@@ -16,11 +16,14 @@ namespace UI
 {
     public class DialogForm : UGuiForm
     {
-        [SerializeField] private TMP_Text _titleText = null;
         [SerializeField] private TMP_Text _messageText = null;
+        
         [SerializeField] private GameObject[] _modeObjects = null;
+        
         [SerializeField] private TMP_Text[] _confirmTexts = null;
+        
         [SerializeField] private TMP_Text[] _cancelTexts = null;
+        
         [SerializeField] private TMP_Text[] _otherTexts = null;
 
         private int _dialogMode = 1;
@@ -83,8 +86,7 @@ namespace UI
 
             _dialogMode = dialogParams.Mode;
             RefreshDialogMode();
-
-            _titleText.text = dialogParams.Title;
+            
             _messageText.text = dialogParams.Message;
 
             _pauseGame = dialogParams.PauseGame;
@@ -114,7 +116,6 @@ namespace UI
             }
 
             _dialogMode = 1;
-            _titleText.text = string.Empty;
             _messageText.text = string.Empty;
             _pauseGame = false;
             _userData = null;

@@ -1,7 +1,6 @@
-using Scene;
+using Definition.Enum;
 using System.Collections.Generic;
 using CustomComponent;
-using Definition.Enum;
 using Event;
 using GameFramework.Event;
 using UI;

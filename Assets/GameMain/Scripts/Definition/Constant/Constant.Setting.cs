@@ -11,15 +11,18 @@ namespace Definition
     {
         public static class Setting
         {
-            public const string Language = "Setting.Language";
-            public const string SoundGroupMuted = "Setting.{0}Muted";
-            public const string SoundGroupVolume = "Setting.{0}Volume";
-            public const string MusicMuted = "Setting.MusicMuted";
-            public const string MusicVolume = "Setting.MusicVolume";
-            public const string SoundMuted = "Setting.SoundMuted";
-            public const string SoundVolume = "Setting.SoundVolume";
-            public const string UISoundMuted = "Setting.UISoundMuted";
-            public const string UISoundVolume = "Setting.UISoundVolume";
+            public const string BGMVolume = "Setting.BGMVolume";
+            public const string SEVolume = "Setting.SEVolume";
+            
+            public const string AllowShake = "Setting.AllowShake";
+            public const string AllowBlink = "Setting.AllowBlink";
+            public const string DialogWindowAlpha = "Setting.DialogWindowAlpha";
+            public const string DialogPlayingSpeed = "Setting.PlayingSpeed";
+            
+            public const string ScreenSolution = "Setting.ScreenSolution";
+            public const string ScreenWindow = "Setting.ScreenWindow";
+            public const string VSync = "Setting.VSync";
+            public const string AntiAliasing = "Setting.AntiAliasing";
         }
     }
 }

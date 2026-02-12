@@ -5,6 +5,7 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
+using Definition.DataStruct;
 using GameFramework;
 using GameFramework.Event;
 using GameFramework.Resource;

@@ -1,13 +1,19 @@
-﻿using GameFramework;
+﻿using System;
+using GameFramework;
 using GameFramework.Event;
 using GameFramework.Resource;
 using System.Collections.Generic;
+using System.Linq;
 using CustomUtility;
 using DataTable;
 using Definition;
+using Definition.Enum;
+using Setting;
+using Sound;
 using TMPro;
 using UI;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityGameFramework.Runtime;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
@@ -18,11 +24,10 @@ namespace Procedure
         public static readonly string[] DataTableNames = new string[]
         {
             "Entity",
-            "Music",
+            "BGM",
             "Scene",
-            "Sound",
             "UIForm",
-            "UISound",
+            "SE",
             "Dialog",
             "DialogLine"
         };
@@ -71,15 +76,12 @@ namespace Procedure
                 }
             }
 
-            procedureOwner.SetData<VarInt32>("NextSceneId", GameEntry.Config.GetInt("Scene.GameplayA"));
+            procedureOwner.SetData<VarInt32>("NextSceneId", (int)SceneId.Menu);
             ChangeState<ProcedureChangeScene>(procedureOwner);
         }
 
         private void PreloadResources()
         {
-            // Preload configs
-            LoadConfig("DefaultConfig");
-
             // Preload data tables
             foreach (string dataTableName in DataTableNames)
             {
@@ -87,18 +89,13 @@ namespace Procedure
             }
 
             // Preload dictionaries
-            LoadDictionary("Default");
+            // LoadDictionary("Default");
 
             // Preload fonts
             LoadFont("MainFont");
             LoadTMPFont("MainTMPFont");
-        }
 
-        private void LoadConfig(string configName)
-        {
-            string configAssetName = AssetUtility.GetConfigAsset(configName, false);
-            _loadedFlag.Add(configAssetName, false);
-            GameEntry.Config.ReadData(configAssetName, this);
+            LoadSetting();
         }
 
         private void LoadDataTable(string dataTableName)
@@ -118,36 +115,113 @@ namespace Procedure
         private void LoadFont(string fontName)
         {
             _loadedFlag.Add(Utility.Text.Format("Font.{0}", fontName), false);
-            GameEntry.Resource.LoadAsset(AssetUtility.GetFontAsset(fontName), Constant.AssetPriority.FontAsset, new LoadAssetCallbacks(
-                (assetName, asset, duration, userData) =>
-                {
-                    _loadedFlag[Utility.Text.Format("Font.{0}", fontName)] = true;
-                    UGuiForm.SetMainFont((Font)asset);
-                    Log.Info("Load font '{0}' OK.", fontName);
-                },
-
-                (assetName, status, errorMessage, userData) =>
-                {
-                    Log.Error("Can not load font '{0}' from '{1}' with error message '{2}'.", fontName, assetName, errorMessage);
-                }));
+            GameEntry.Resource.LoadAsset(AssetUtility.GetFontAsset(fontName), Constant.AssetPriority.FontAsset,
+                new LoadAssetCallbacks(
+                    (assetName, asset, duration, userData) =>
+                    {
+                        _loadedFlag[Utility.Text.Format("Font.{0}", fontName)] = true;
+                        UGuiForm.SetMainFont((Font)asset);
+                        Log.Info("Load font '{0}' OK.", fontName);
+                    },
+                    (assetName, status, errorMessage, userData) =>
+                    {
+                        Log.Error("Can not load font '{0}' from '{1}' with error message '{2}'.", fontName, assetName,
+                            errorMessage);
+                    }));
         }
 
         private void LoadTMPFont(string fontName)
         {
             _loadedFlag.Add(Utility.Text.Format("Font.{0}", fontName), false);
-            GameEntry.Resource.LoadAsset(AssetUtility.GetTMPFontAsset(fontName), Constant.AssetPriority.FontAsset, new LoadAssetCallbacks(
-                (assetName, asset, duration, userData) =>
-                {
-                    _loadedFlag[Utility.Text.Format("Font.{0}", fontName)] = true;
-                    UGuiForm.SetMainTMPFont((TMP_FontAsset)asset);
-                    Log.Info("Load font '{0}' OK.", fontName);
-                },
-
-                (assetName, status, errorMessage, userData) =>
-                {
-                    Log.Error("Can not load font '{0}' from '{1}' with error message '{2}'.", fontName, assetName, errorMessage);
-                }));
+            GameEntry.Resource.LoadAsset(AssetUtility.GetTMPFontAsset(fontName), Constant.AssetPriority.FontAsset,
+                new LoadAssetCallbacks(
+                    (assetName, asset, duration, userData) =>
+                    {
+                        _loadedFlag[Utility.Text.Format("Font.{0}", fontName)] = true;
+                        UGuiForm.SetMainTMPFont((TMP_FontAsset)asset);
+                        Log.Info("Load font '{0}' OK.", fontName);
+                    },
+                    (assetName, status, errorMessage, userData) =>
+                    {
+                        Log.Error("Can not load font '{0}' from '{1}' with error message '{2}'.", fontName, assetName,
+                            errorMessage);
+                    }));
         }
+
+        private void LoadSetting()
+        {
+            var setting = GameEntry.Setting.GetGameSetting();
+
+            GameEntry.Sound.SetVolume("BGM", setting.BGMVolume);
+            GameEntry.Sound.SetVolume("SE", setting.SEVolume);
+
+            ScreenResolutionType resolution = setting.ScreenResolution;
+            int width = 0, height = 0;
+            switch (resolution)
+            {
+                case ScreenResolutionType._1280x720:
+                    width = 1280;
+                    height = 720;
+                    break;
+                case ScreenResolutionType._1366x768:
+                    width = 1366;
+                    height = 768;
+                    break;
+                case ScreenResolutionType._1600x900:
+                    width = 1600;
+                    height = 900;
+                    break;
+                case ScreenResolutionType._1920x1080:
+                    width = 1920;
+                    height = 1080;
+                    break;
+                case ScreenResolutionType._2560x1440:
+                    width = 2560;
+                    height = 1440;
+                    break;
+                case ScreenResolutionType._2560x1600:
+                    width = 2560;
+                    height = 1600;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            ScreenWindowType resolutionWindow = setting.ScreenWindow;
+            switch (resolutionWindow)
+            {
+                case ScreenWindowType.FullScreen:
+                    Screen.SetResolution(width, height, FullScreenMode.ExclusiveFullScreen);
+                    break;
+                case ScreenWindowType.Borderless:
+                    Screen.SetResolution(width, height, FullScreenMode.FullScreenWindow);
+                    break;
+                case ScreenWindowType.Windowed:
+                    Screen.SetResolution(width, height, FullScreenMode.Windowed);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            Application.targetFrameRate = -1;
+            QualitySettings.vSyncCount = setting.VSync ? 1 : 0;
+            if (setting.AntiAliasing)
+            {
+                foreach (var asset in GraphicsSettings.allConfiguredRenderPipelines)
+                {
+                    if (asset.name == "URP-AntiAliasing") GraphicsSettings.renderPipelineAsset = asset;
+                }
+            }
+            else
+            {
+                foreach (var asset in GraphicsSettings.allConfiguredRenderPipelines)
+                {
+                    if (asset.name == "URP-Normal") GraphicsSettings.renderPipelineAsset = asset;
+                }
+            }
+        }
+
+        #region Event Hanlders
 
         private void OnLoadConfigSuccess(object sender, GameEventArgs e)
         {
@@ -169,7 +243,8 @@ namespace Procedure
                 return;
             }
 
-            Log.Error("Can not load config '{0}' from '{1}' with error message '{2}'.", ne.ConfigAssetName, ne.ConfigAssetName, ne.ErrorMessage);
+            Log.Error("Can not load config '{0}' from '{1}' with error message '{2}'.", ne.ConfigAssetName,
+                ne.ConfigAssetName, ne.ErrorMessage);
         }
 
         private void OnLoadDataTableSuccess(object sender, GameEventArgs e)
@@ -192,7 +267,8 @@ namespace Procedure
                 return;
             }
 
-            Log.Error("Can not load data table '{0}' from '{1}' with error message '{2}'.", ne.DataTableAssetName, ne.DataTableAssetName, ne.ErrorMessage);
+            Log.Error("Can not load data table '{0}' from '{1}' with error message '{2}'.", ne.DataTableAssetName,
+                ne.DataTableAssetName, ne.ErrorMessage);
         }
 
         private void OnLoadDictionarySuccess(object sender, GameEventArgs e)
@@ -215,7 +291,10 @@ namespace Procedure
                 return;
             }
 
-            Log.Error("Can not load dictionary '{0}' from '{1}' with error message '{2}'.", ne.DictionaryAssetName, ne.DictionaryAssetName, ne.ErrorMessage);
+            Log.Error("Can not load dictionary '{0}' from '{1}' with error message '{2}'.", ne.DictionaryAssetName,
+                ne.DictionaryAssetName, ne.ErrorMessage);
         }
+
+        #endregion
     }
 }
