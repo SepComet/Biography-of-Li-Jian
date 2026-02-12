@@ -20,7 +20,7 @@ namespace UI
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            _fadeSequence.Kill();
+            KillFadeSequence();
             _fadeSequence = DOTween.Sequence();
             _fadeSequence.Append(_bgImage.DOFade(1, _fadeDuration));
             _onSelect.Invoke();
@@ -28,10 +28,19 @@ namespace UI
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            _fadeSequence.Kill();
+            KillFadeSequence();
+            
             _fadeSequence = DOTween.Sequence();
             _fadeSequence.Append(_bgImage.DOFade(0, _fadeDuration));
             _onDeselect.Invoke();
+        }
+
+        private void KillFadeSequence()
+        {
+            if (_fadeSequence != null && _fadeSequence.IsActive())
+            {
+                _fadeSequence.Kill();
+            }
         }
     }
 }

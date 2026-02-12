@@ -17,7 +17,7 @@ namespace Setting
 
                 AllowShake = setting.GetBool(Constant.Setting.AllowShake, true),
                 AllowBlink = setting.GetBool(Constant.Setting.AllowBlink, true),
-                DialogWindowAlpha = (DialogWindowAlpha)setting.GetInt(Constant.Setting.DialogWindowAlpha, 1),
+                DialogWindowAlpha = (DialogWindowAlpha)setting.GetInt(Constant.Setting.DialogWindowAlpha, 2),
                 DialogPlayingSpeed = (DialogPlayingSpeed)setting.GetInt(Constant.Setting.DialogPlayingSpeed, 1),
 
                 ScreenResolution = (ScreenResolutionType)setting.GetInt(Constant.Setting.ScreenSolution, 1),

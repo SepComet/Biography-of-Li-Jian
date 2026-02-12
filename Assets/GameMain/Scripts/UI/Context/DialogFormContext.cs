@@ -4,7 +4,7 @@ namespace UI
 {
     public class DialogFormContext : UIContext
     {
-        public float PlayingSpeed = 1f;
+        public DialogPlayingSpeed PlayingSpeed = DialogPlayingSpeed.Medium;
 
         public int ChapterId = 0;
         public int DialogId = 0;

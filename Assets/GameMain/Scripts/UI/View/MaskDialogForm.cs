@@ -13,6 +13,8 @@ namespace UI
         [SerializeField] private Image _maskImage;
 
         [SerializeField] private TMP_Text _text;
+        
+        private float _currentPlayingSpeed;
 
         public override void StartDialog(DialogFormContext context)
         {
@@ -29,7 +31,12 @@ namespace UI
                 _maskImage.gameObject.SetActive(true);
             }
 
-            PlayTypewriter(_text, context.Text, context.PlayingSpeed);
+            if ((int)_context.PlayingSpeed * 5 != (int)_currentPlayingSpeed)
+            {
+                _currentPlayingSpeed = 5f * (int)_context.PlayingSpeed;
+            }
+            
+            PlayTypewriter(_text, context.Text, _currentPlayingSpeed);
         }
     }
 }

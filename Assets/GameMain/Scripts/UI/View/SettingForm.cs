@@ -46,8 +46,8 @@ namespace UI
 
             var setting = context.Setting;
 
-            _bgmVolumeSlider.value = setting.BGMVolume * 4;
-            _seVolumeSlider.value = setting.SEVolume * 4;
+            _bgmVolumeSlider.value = setting.BGMVolume * 5;
+            _seVolumeSlider.value = setting.SEVolume * 5;
 
             _allowBlinkGroup.SetValue(setting.AllowBlink);
             _allowShakeGroup.SetValue(setting.AllowShake);
@@ -77,8 +77,8 @@ namespace UI
         {
             var setting = new GameSetting
             {
-                BGMVolume = _bgmVolumeSlider.value / 4,
-                SEVolume = _seVolumeSlider.value / 4,
+                BGMVolume = _bgmVolumeSlider.value / 5,
+                SEVolume = _seVolumeSlider.value / 5,
 
                 AllowShake = _allowShakeGroup.GetBoolValue(),
                 AllowBlink = _allowBlinkGroup.GetBoolValue(),

@@ -15,9 +15,7 @@ namespace CustomComponent
     public class DialogComponent : GameFrameworkComponent
     {
         #region Property
-
-        [SerializeField] private float _playingSpeed = 1.0f;
-
+        
         private const int DialogChapterDivisor = 1000;
         private const int LineChapterDivisor = 100000000;
         private const int LineDialogDivisor = 100000;
@@ -37,9 +35,7 @@ namespace CustomComponent
         private int _currentLineIndex = -1;
         private bool _isInitialized;
         private bool _isPlaying;
-
-        public float PlayingSpeed => _playingSpeed;
-
+        
         public bool IsInitialized => _isInitialized;
 
         public bool IsPlaying => _isPlaying;
@@ -216,9 +212,8 @@ namespace CustomComponent
             _formContext.DialogId = dialogRow.Id;
             _formContext.DialogTitle = dialogRow.Title;
             _formContext.DialogUIMode = dialogRow.UIMode;
-            _formContext.PlayingSpeed = Mathf.Max(0f, _playingSpeed);
-            _formContext.DialogWindowAlpha =
-                (DialogWindowAlpha)GameEntry.Setting.GetInt(Constant.Setting.DialogWindowAlpha);
+            _formContext.PlayingSpeed = (DialogPlayingSpeed)GameEntry.Setting.GetInt(Constant.Setting.DialogPlayingSpeed);
+            _formContext.DialogWindowAlpha = (DialogWindowAlpha)GameEntry.Setting.GetInt(Constant.Setting.DialogWindowAlpha);
 
             _currentLineIndex = 0;
             ApplyLineToContext(dialogLines[_currentLineIndex], _currentLineIndex, dialogLines.Count);
@@ -358,7 +353,6 @@ namespace CustomComponent
             _formContext.Direction = lineRow.Direction;
             _formContext.Text = lineRow.Text;
             _formContext.Emphasis = lineRow.Emphasis;
-            _formContext.PlayingSpeed = Mathf.Max(0f, _playingSpeed);
             _formContext.LineIndex = lineIndex;
             _formContext.TotalLines = totalLines;
             _formContext.IsLastLine = lineIndex >= totalLines - 1;

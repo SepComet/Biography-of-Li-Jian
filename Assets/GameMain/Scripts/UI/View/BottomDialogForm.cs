@@ -39,6 +39,7 @@ namespace UI
         private string _rightSpeakerToken = string.Empty;
         private Sequence _layoutSequence;
         private DialogWindowAlpha _currentWindowAlpha = DialogWindowAlpha.Medium;
+        private float _currentPlayingSpeed = 10f;
 
         public override void StartDialog(DialogFormContext context)
         {
@@ -61,7 +62,7 @@ namespace UI
                     DialogWindowAlpha.High => 0.25f,
                     _ => 0.5f
                 };
-                
+
                 if (_dialogBgImages.Length == 0)
                 {
                     //TODO:一个很奇怪的问题，在 prefab 里赋好的值实例化出来就没了，只能先这样赋值
@@ -76,6 +77,11 @@ namespace UI
                 }
             }
 
+            if ((int)(_context.PlayingSpeed + 1) * 5 != (int)_currentPlayingSpeed)
+            {
+                _currentPlayingSpeed = 5f * (int)(_context.PlayingSpeed + 1);
+            }
+
             string speakerName = _context.SpeakerName;
 
             if (_speakerArea != null)
@@ -88,7 +94,7 @@ namespace UI
                 _speakerNameText.text = speakerName;
             }
 
-            PlayTypewriter(_contentText, _context.Text, _context.PlayingSpeed);
+            PlayTypewriter(_contentText, _context.Text, _currentPlayingSpeed);
 
             if (string.IsNullOrEmpty(speakerName))
             {
