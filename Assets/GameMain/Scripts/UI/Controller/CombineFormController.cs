@@ -6,7 +6,7 @@ namespace UI
 {
     public class CombineFormController : IFormController<CombineFormContext>
     {
-        private CombineComponent _controller;
+        private CombineComponent _combine;
 
         private CombineForm _combineForm;
 
@@ -16,20 +16,20 @@ namespace UI
 
         public CombineFormController(CombineComponent controller)
         {
-            _controller = controller;
+            _combine = controller;
 
             GameEntry.Event.Subscribe(OpenUIFormSuccessEventArgs.EventId, OpenUIFormSuccess);
-            GameEntry.Event.Subscribe(CloseUIFormCompleteEventArgs.EventId,  CloseUIFormComplete);
+            GameEntry.Event.Subscribe(CloseUIFormCompleteEventArgs.EventId, CloseUIFormComplete);
         }
 
         public int? OpenUI(CombineFormContext context)
         {
-            if (_controller == null)
+            if (_combine == null)
             {
-                _controller = GameEntry.Combine;
+                _combine = GameEntry.Combine;
             }
 
-            if (_controller == null)
+            if (_combine == null)
             {
                 Log.Warning("CombineFormController open failed. Controller is null.");
                 return null;
@@ -37,10 +37,10 @@ namespace UI
 
             if (context != null)
             {
-                _controller.SetFormContext(context);
+                _combine.SetFormContext(context);
             }
 
-            _context = _controller.GetFormContext();
+            _context = _combine.GetFormContext();
             if (_context == null)
             {
                 Log.Warning("CombineFormController open failed. Form context is null.");
@@ -68,7 +68,7 @@ namespace UI
         ~CombineFormController()
         {
             GameEntry.Event.Unsubscribe(OpenUIFormSuccessEventArgs.EventId, OpenUIFormSuccess);
-            GameEntry.Event.Unsubscribe(CloseUIFormCompleteEventArgs.EventId,  CloseUIFormComplete);
+            GameEntry.Event.Unsubscribe(CloseUIFormCompleteEventArgs.EventId, CloseUIFormComplete);
         }
 
         private void OpenUIFormSuccess(object sender, GameEventArgs e)

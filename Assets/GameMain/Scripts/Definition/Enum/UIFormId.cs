@@ -53,5 +53,7 @@ namespace UI
         /// 气泡剧情对话界面。
         /// </summary>
         BubbleDialogForm = 106,
+        
+        MainOverlayForm = 107,
     }
 }
