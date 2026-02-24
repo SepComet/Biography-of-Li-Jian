@@ -44,6 +44,10 @@ namespace UI
         {
             _controller = context.Controller;
 
+            bool isMobilePlatform = Application.isMobilePlatform;
+            _screenSolution.gameObject.SetActive(!isMobilePlatform);
+            _screenWindow.gameObject.SetActive(!isMobilePlatform);
+
             var setting = context.Setting;
 
             _bgmVolumeSlider.value = setting.BGMVolume * 5;
@@ -121,7 +125,7 @@ namespace UI
             };
             dialogParams.OnClickConfirm += SaveSettingAndReturn;
             dialogParams.OnClickCancel += _ => _controller.CloseUI();
-            
+
             GameEntry.UI.OpenUIForm(UIFormId.DialogForm, dialogParams);
         }
 

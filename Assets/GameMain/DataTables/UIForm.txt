@@ -7,6 +7,7 @@
 	101	设置	SettingForm	Default	False	True
 	102	关于	AboutForm	Default	False	True
 	103	组装玩法UI	CombineForm	Default	False	False
-	104	Mask对话UI	MaskDialogForm	Default	False	False
-	105	Bottom对话UI	BottomBoxDialogForm	Default	False	False
-	106	Bubble对话UI	BubbleDialogForm	Default	True	False
+	104	Mask对话UI	MaskDialogForm	Dialog	False	False
+	105	Bottom对话UI	BottomBoxDialogForm	Dialog	False	False
+	106	Bubble对话UI	BubbleDialogForm	Dialog	True	False
+	107	游戏场景覆盖UI	MainOverlayForm	Overlay	False	False
