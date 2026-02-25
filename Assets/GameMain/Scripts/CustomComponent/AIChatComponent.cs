@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,13 +16,15 @@ namespace CustomComponent
     [DisallowMultipleComponent]
     public class AIChatComponent : GameFrameworkComponent
     {
-        [Header("OpenAI Config")] [SerializeField]
-        private string _apiBaseUrl = "https://api.openai.com";
+        [Header("OpenAI Config")]
+        [SerializeField] private string _configFileName = "openai_config.json";
 
-        [SerializeField] private string _apiKey = string.Empty;
-        [SerializeField] private string _chatCompletionsPath = "/v1/chat/completions";
-        [SerializeField] private string _heartbeatPath = "/v1/models";
-        [SerializeField] private string _model = "gpt-4o-mini";
+        [SerializeField] private string _chatCompletionsPath = "/chat/completions";
+        [SerializeField] private string _heartbeatPath = "/models";
+
+        private string _apiBaseUrl;
+        private string _apiKey;
+        private string _model;
 
         [Header("Request Options")] [SerializeField]
         private bool _autoInitializeOnEnable = true;
@@ -85,6 +88,12 @@ namespace CustomComponent
 
         public void Initialize()
         {
+            if (!LoadConfigFromStreamingAssets())
+            {
+                _isInitialized = false;
+                return;
+            }
+
             _isInitialized = true;
             StartHeartbeat();
         }
@@ -463,6 +472,66 @@ namespace CustomComponent
             }
 
             return Utility.Text.Format("{0}/{1}", _apiBaseUrl.TrimEnd('/'), pathOrUrl.TrimStart('/'));
+        }
+
+        private bool LoadConfigFromStreamingAssets()
+        {
+            if (string.IsNullOrWhiteSpace(_configFileName))
+            {
+                Log.Error("AIChat config filename is empty.");
+                return false;
+            }
+
+            string configPath = Path.Combine(Application.streamingAssetsPath, _configFileName);
+            if (!File.Exists(configPath))
+            {
+                Log.Error("AIChat config file not found. path='{0}'", configPath);
+                return false;
+            }
+
+            string json;
+            try
+            {
+                json = File.ReadAllText(configPath, Encoding.UTF8);
+            }
+            catch (Exception exception)
+            {
+                Log.Error("AIChat config read failed. path='{0}', error='{1}'", configPath, exception.Message);
+                return false;
+            }
+
+            OpenAIConfig config;
+            try
+            {
+                config = Utility.Json.ToObject<OpenAIConfig>(json);
+            }
+            catch (Exception exception)
+            {
+                Log.Error("AIChat config parse failed. error='{0}'", exception.Message);
+                return false;
+            }
+
+            if (config == null ||
+                string.IsNullOrWhiteSpace(config.apiBaseUrl) ||
+                string.IsNullOrWhiteSpace(config.apiKey) ||
+                string.IsNullOrWhiteSpace(config.model))
+            {
+                Log.Error("AIChat config is invalid. baseUrl/key/model must be provided.");
+                return false;
+            }
+
+            _apiBaseUrl = config.apiBaseUrl;
+            _apiKey = config.apiKey;
+            _model = config.model;
+            return true;
+        }
+
+        [Serializable]
+        private sealed class OpenAIConfig
+        {
+            public string apiBaseUrl;
+            public string apiKey;
+            public string model;
         }
 
         private static IEnumerator WaitTask(Task task)
