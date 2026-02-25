@@ -154,6 +154,7 @@ Transform:
   - {fileID: 513208573}
   - {fileID: 1968988098}
   - {fileID: 434859534}
+  - {fileID: 1064285105}
   m_Father: {fileID: 1852670053}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &120093239
@@ -262,7 +263,6 @@ GameObject:
   m_Component:
   - component: {fileID: 265274950}
   - component: {fileID: 265274949}
-  - component: {fileID: 265274948}
   - component: {fileID: 265274947}
   m_Layer: 0
   m_Name: Camera
@@ -315,14 +315,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!81 &265274948
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 265274946}
-  m_Enabled: 1
 --- !u!20 &265274949
 Camera:
   m_ObjectHideFlags: 0
@@ -801,7 +793,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11499388, guid: adb3eb1c35fcff14f89fba7b05c9d71c, type: 3}
       propertyPath: m_EditorResourceMode
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11499388, guid: adb3eb1c35fcff14f89fba7b05c9d71c, type: 3}
       propertyPath: m_JsonHelperTypeName
@@ -1080,6 +1072,61 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &1064285104
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1064285105}
+  - component: {fileID: 1064285106}
+  m_Layer: 0
+  m_Name: AIChat
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1064285105
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1064285104}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 119167776}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1064285106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1064285104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 721362e43780c4043ae6e7ce92463755, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _apiBaseUrl: https://dashscope.aliyuncs.com/compatible-mode/v1
+  _apiKey: sk-cba96782070546aeade8de5f555a9c40
+  _chatCompletionsPath: /chat/completions
+  _heartbeatPath: /models
+  _model: qwen-plus
+  _autoInitializeOnEnable: 1
+  _chatTimeoutSeconds: 60
+  _temperature: 0.7
+  _systemPrompt: "\u4F60\u662F\u5317\u5B8B\u8457\u540D\u5EFA\u7B51\u5B66\u5BB6\u674E\u8BEB\uFF0C\u73B0\u5728\u4F60\u9700\u8981\u6839\u636E\u63D0\u95EE\u7684\u5185\u5BB9\u548C\u56DE\u7B54\u7684\u8981\u6C42\u5BF9\u95EE\u9898\u505A\u51FA\u56DE\u590D\uFF0C\u56DE\u7B54\u95EE\u9898\u5C31\u884C\uFF0C\u4E0D\u8981\u7528\u751F\u50FB\u5B57\uFF0C\u5207\u52FF\u53D1\u6563\u3002"
+  _heartbeatIntervalSeconds: 5
+  _heartbeatTimeoutSeconds: 8
 --- !u!1 &1852670052
 GameObject:
   m_ObjectHideFlags: 0

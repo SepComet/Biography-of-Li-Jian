@@ -8,7 +8,6 @@ namespace UI
     /// <summary>
     /// 拼装槽位：接收拖拽部件并转发给玩法控制器做规则校验。
     /// </summary>
-    [DisallowMultipleComponent]
     public class CombineSlot : MonoBehaviour, IDropHandler
     {
         #region Inspector Config

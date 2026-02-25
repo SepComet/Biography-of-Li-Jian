@@ -10,7 +10,6 @@ namespace UI
     /// 可拖拽拼装部件：负责拖拽交互、出生点回退与放置到槽位。
     /// </summary>
     [RequireComponent(typeof(RectTransform))]
-    [DisallowMultipleComponent]
     public class CombineDraggablePart : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
     {
         #region Inspector Config
