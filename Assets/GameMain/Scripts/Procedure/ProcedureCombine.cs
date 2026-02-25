@@ -1,21 +1,12 @@
 using Definition.Enum;
 using System.Collections.Generic;
 using CustomComponent;
-using Event;
-using GameFramework.Event;
 using UI;
 using UnityEngine;
-using UnityGameFramework.Runtime;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
 namespace Procedure
 {
-    /// <summary>
-    /// 斗拱拼装流程：
-    /// 1. 进入流程后准备组件与事件；
-    /// 2. 启动并监控拼装关卡（成功或超时）；
-    /// 3. 结算后短暂等待并重开场景。
-    /// </summary>
     public class ProcedureCombine : ProcedureBase
     {
         #region Property
@@ -40,12 +31,17 @@ namespace Procedure
         protected override void OnEnter(ProcedureOwner procedureOwner)
         {
             base.OnEnter(procedureOwner);
-            
+
             //InitializeProcedureState();
-            GameEntry.Dialog.Init(1);
+            //GameEntry.Dialog.Init(1);
 
             //GameEntry.Dialog.StartDialog(1001);
-            GameEntry.Dialog.StartDialog(1002);
+            //GameEntry.Dialog.StartDialog(1002);
+            AIChatFormContext context = new AIChatFormContext();
+
+            AIChatFormController controller = new AIChatFormController();
+            context.Controller = controller;
+            controller.OpenUI(context);
         }
 
         /// <summary>

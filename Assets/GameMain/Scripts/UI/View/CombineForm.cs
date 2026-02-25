@@ -4,7 +4,6 @@ using Event;
 using GameFramework.Event;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityGameFramework.Runtime;
 
 namespace UI
@@ -12,7 +11,6 @@ namespace UI
     /// <summary>
     /// MVC UI form for GameplayA. It builds slots and draggable parts from external data.
     /// </summary>
-    [DisallowMultipleComponent]
     public class CombineForm : UGuiForm
     {
         #region Property

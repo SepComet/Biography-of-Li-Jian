@@ -55,5 +55,7 @@ namespace UI
         BubbleDialogForm = 106,
         
         MainOverlayForm = 107,
+
+        AIChatForm = 108,
     }
 }

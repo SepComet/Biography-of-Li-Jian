@@ -11,17 +11,20 @@ using UnityEngine.EventSystems;
 
 namespace UI
 {
-    public class CommonButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
+    public class CommonButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler,
+        IPointerUpHandler
     {
         private const float FadeTime = 0.3f;
         private const float OnHoverAlpha = 0.7f;
         private const float OnClickAlpha = 0.6f;
 
-        [SerializeField]
-        private UnityEvent m_OnHover = null;
+        [SerializeField] private bool _allowFade = true;
 
-        [SerializeField]
-        private UnityEvent m_OnClick = null;
+        [SerializeField] private UnityEvent m_OnHover = null;
+
+        [SerializeField] private UnityEvent m_OnClick = null;
+
+        [SerializeField] private UnityEvent m_OnHoverEnd = null;
 
         private CanvasGroup m_CanvasGroup = null;
 
@@ -43,8 +46,9 @@ namespace UI
             }
 
             StopAllCoroutines();
-            StartCoroutine(m_CanvasGroup.FadeToAlpha(OnHoverAlpha, FadeTime));
-            m_OnHover.Invoke();
+            if (_allowFade)
+                StartCoroutine(m_CanvasGroup.FadeToAlpha(OnHoverAlpha, FadeTime));
+            m_OnHover?.Invoke();
         }
 
         public void OnPointerExit(PointerEventData eventData)
@@ -55,7 +59,9 @@ namespace UI
             }
 
             StopAllCoroutines();
-            StartCoroutine(m_CanvasGroup.FadeToAlpha(1f, FadeTime));
+            if (_allowFade)
+                StartCoroutine(m_CanvasGroup.FadeToAlpha(1f, FadeTime));
+            m_OnHoverEnd?.Invoke();
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -66,7 +72,7 @@ namespace UI
             }
 
             m_CanvasGroup.alpha = OnClickAlpha;
-            m_OnClick.Invoke();
+            m_OnClick?.Invoke();
         }
 
         public void OnPointerUp(PointerEventData eventData)

@@ -11,3 +11,4 @@
 	105	Bottom对话UI	BottomBoxDialogForm	Dialog	False	False
 	106	Bubble对话UI	BubbleDialogForm	Dialog	True	False
 	107	游戏场景覆盖UI	MainOverlayForm	Overlay	False	False
+	108	AI对话UI	AIChatForm	Overlay	False	False
